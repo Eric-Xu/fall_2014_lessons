@@ -19,7 +19,7 @@ class lastfmAPI(object):
 	"""
 	Constraints:
 	-Caching in accordance with HTTP response headers
-	-Rate limit: 5 requests per originating IP address per second, averaged over a 5 minute period, 
+	-Rate limit: 5 requests per originating IP address per second, averaged over a 5 minute period,
 	"""
 	__shared_state = {}
 	def __init__(self, query_base_url=API_QUERY_BASE_URL, api_key=API_KEY, api_secret_key=API_SECRET):
@@ -35,11 +35,11 @@ class lastfmAPI(object):
 		self.headers = {'Accept': 'application/json',
 				'User-Agent': 'python-requests/2.2.1'
 		}
-		
+
 	def _throttle(self):
 		""" Will sleep for self.delay seconds before returning """
 		now = time.time()
-		if (self.query_base_url in self.last_request_time and 
+		if (self.query_base_url in self.last_request_time and
 		    (time.time() - self.last_request_time[self.query_base_url] < self.delay)):
 			self.throttle_time = (self.delay -
 					     (now - self.last_request_time[self.query_base_url]))
@@ -54,8 +54,8 @@ class lastfmAPI(object):
 		}
 		payload.update(**params)
 		return payload
-		
-	def query(self, timeout=3, **query_params):
+
+	def query(self, timeout=3, **query_params): # ** is shorthand for dictionary
 		"""
 		TODO: add better error handling for 502 errors...
 		TODO: update response error codes
@@ -134,7 +134,7 @@ class lastfmAPI(object):
 
 	def sanitize_tag_name(self, tag):
 		"""
-		Consider doing more string sanitization here, 
+		Consider doing more string sanitization here,
 		removing punctuation, etc.
 		"""
 		return tag.lower()
@@ -147,7 +147,7 @@ class lastfmAPI(object):
 			for top_tag in top_tags:
 				name = self.sanitize_tag_name(top_tag['name'])
 				# don't include tags that have fewer than 5 counts
-				if int(top_tag.values()[0]) < 5: 
+				if int(top_tag.values()[0]) < 5:
 					continue
 				top_tags_mapped[name] = 1
 
